@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Document</title>
+    <style>
+    </style>
+</head>
+<body>
+    <div class="d-flex justify-content-between p-5">
+    <h1>Hi,{{user.first_name}}  {{user.last_name}}!</h1>
+    <a href="/logout" >Logout</a>
+</div>
+<div class="col-5">
+    <form action="/addThought" method="post">
+        {% csrf_token %}
+        <div class="form-group p-5">
+            <input type="hidden" value="{{user.id}}" name="user_id">
+            <input type='text' value="Place a Great Thought Here!" name='thought' class="form-control">
+            {% for message in messages %}
+            {% if message.tags == 'thought error' %}
+            {{ message }}
+            {% endif %}
+            {% endfor %}
+            <input class="btn btn-primary" type='submit' value='Add Thought!'>
+    </form>
+</div>
+
+<hr>
+{% for thought in all_the_thoughts %}
+<div>
+{{thought.user.first_name}} says: <p style="border: 1px solid black; height: 80px; width: 500px;">{{thought.thought}}</p>
+{% if user.id == thought.user.id %}
+<a class="btn bg-danger"href="destroy/{{thought.id}}">Delete</a><br>
+{% endif %}
+<a href="thoughts/{{thought.id}}">Details</a>
+{{thought.likes.count}} people like this<br>
+</div>
+{% endfor %}
+
+</body>
+</html>

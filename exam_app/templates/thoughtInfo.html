@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Document</title>
+    <style>
+        th {
+            border: 1px solid black
+        }
+
+        td {
+            border: 1px solid black
+        }
+    </style>
+</head>
+
+<body>
+    <div style="text-align: end;">
+        <a href="/thoughts">Dashboard</a>
+        <a class="m-3" href="/logout">Logout</a>
+    </div>
+
+
+
+
+
+    <div class="col-5">
+        {{one_thought.user.first_name}} says: <p style="border: 1px solid black; height: 80px; width: 500px;">
+            {{one_thought.thought}}</p><br>
+
+
+        {% for one_like in one_thought.likes.all %}
+        {% if one_like.id == id %}
+        <a class="btn bg-warning" href="/unlike/{{user.id}}/{{one_thought.id}}">unlike</a>
+        {% else %}
+        <a class="btn bg-success" href="/like/{{user.id}}/{{one_thought.id}}">like</a>
+        {% endif %}
+        {% endfor %}
+        {{one_thought.likes.count}}
+    </div>
+    <h5>People who liked this thought:</h5>
+    <table style="border: 1px solid black;">
+        <tr>
+            <th>First Name</th>
+            <th>Last name</th>
+        </tr>
+        {% for one_person in one_thought.likes.all %}
+        <tr style="border: 1px solid black;">
+            <td>{{one_person.first_name}}</td>
+            <td>{{one_person.last_name}}</td>
+        </tr>
+        {% endfor %}
+        <!-- {% for one_like in one_thought.likes.all %}
+        <tr>
+        {% if one_like.id == id and one_like.id == one_thought.user.id %}
+        <td>{{one_like.first_name}}</td>
+        <td>{{one_like.last_name}}</td>
+        {% endif %}
+    </tr>
+        {% endfor %} -->
+    </table>
+
+
+</body>
+
+
+</html>
